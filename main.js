@@ -1,5 +1,5 @@
 // Auto.js 4.1.1 脚本（第一代API版本）
-// 功能：唤醒设备 -> 解锁屏幕 -> 打开钉钉 -> 停留10秒 -> 打开Auto.js
+// 功能：唤醒设备 -> 解锁屏幕 -> 打开钟针 -> 停留10秒 -> 打开Auto.js
 
 // 唤醒设备并确保屏幕已点亮
 function ensureScreenOn() {
@@ -32,9 +32,9 @@ function openDingTalk() {
     }
 }
 
-// 检测并点击屏幕上的“关闭”按钮（如果存在）
+// 检测并点击屏幕上的“关闭”按钮（如果存在）用来关闭间断
 function closePopupIfExist() {
-    var closeButton = text("关闭").findOne(3000); // 查找3秒内是否有"关闭"按钮
+    var closeButton = textMatches(/关闭|Close|Dismiss/).findOne(3000); // 通过正则匹配关闭按钮
     if (closeButton) {
         log("发现关闭按钮，正在点击...");
         closeButton.click(); // 点击关闭按钮
@@ -50,7 +50,7 @@ var thread = threads.start(function () {
     ensureScreenOn(); // 确保屏幕已点亮
     closePopupIfExist(); // 关闭可能存在的弹窗
     unlockDevice(); // 解锁设备
-    openDingTalk(); // 打开钉钉并停留10秒
+    openDingTalk(); // 打开Dingding并停留10秒
     log("任务完成，线程即将关闭。");
 });
 
@@ -58,6 +58,5 @@ var thread = threads.start(function () {
 thread.join();
 
 // 等待5秒后重新打开Auto.js
-sleep(5000); // 等待5秒
 launchApp("Auto.js"); // 启动Auto.js
 log("线程已关闭并重新打开Auto.js。");
